@@ -1,0 +1,19 @@
+server:
+  port: 8118
+
+spring:
+  application:
+    name: dsh-java-style
+  web:
+    resources:
+      cache:
+        cachecontrol:
+          no-cache: true
+  jackson:
+    default-property-inclusion: non_null
+
+dsh:
+  style:
+    data-directory: ${user.home}/.dsh-java-style
+    harness:
+      base-url: ${DSH_HARNESS_BASE_URL:http://127.0.0.1:8090}

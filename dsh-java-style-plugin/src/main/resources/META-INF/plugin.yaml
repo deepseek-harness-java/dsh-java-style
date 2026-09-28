@@ -1,0 +1,6 @@
+id: dsh-java-style-plugin
+name: DSH Tone Tuner Plugin
+version: 0.1.0
+author: Xiaofuge
+description: Text style analysis tools (profile, compare, rewrite suggestions, readability, glossary check) for DeepSeek Harness. Read-only, never modifies the original text.
+entrypoint: cn.xiaofuge.dsh.com.dsh.style.plugin.DshToneStylePlugin

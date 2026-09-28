@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>DSH Tone Tuner</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="logo">TT</div>
+      <div><strong>Tone Tuner</strong><span>Powered by Harness</span></div>
+    </div>
+    <button class="primary block" id="newConversation">＋ 新对话</button>
+    <div class="section-label"><span>对话记录</span></div>
+    <div id="conversationList" class="item-list conversation-list"></div>
+  </aside>
+
+  <main class="main">
+    <header class="main-header">
+      <div>
+        <div class="title-row">
+          <span id="statusDot" class="dot"></span>
+          <h1 id="currentName">文风调音台</h1>
+        </div>
+        <p id="currentDetail">文风画像 · 对比 · 改写建议 · 可读性 · 术语检查（不动原稿）</p>
+      </div>
+      <div class="header-actions">
+        <button class="ghost" id="openAnalyze">🔍 快速体检</button>
+        <button class="ghost icon-btn" id="toggleTheme" title="切换主题">🌙</button>
+      </div>
+    </header>
+
+    <div id="workspace" class="workspace">
+      <section class="center">
+        <div id="chatMessages" class="chat-scroll"></div>
+        <div class="composer-wrap">
+          <div id="streamStatus" class="stream-status hidden">
+            <span id="streamStatusText"><span class="status-spinner"></span>AI 正在思考</span>
+          </div>
+          <div class="composer">
+            <textarea id="chatInput" rows="1" placeholder="让 AI 分析文风，例如：给这段文字做风格画像并给改写建议"></textarea>
+            <div class="composer-bar">
+              <span class="composer-hint"><kbd>⌘</kbd>+<kbd>↵</kbd> 发送 · 只出建议 · 不动原稿</span>
+              <div class="composer-actions">
+                <button class="ghost small hidden" id="stopStream">停止</button>
+                <button class="send-btn" id="sendMessage" title="发送">↑</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <aside class="resource-sidebar">
+        <div class="resource-scroll">
+          <div class="resource-header">
+            <b>分析工作台</b>
+            <button class="ghost small" id="refreshResource">刷新</button>
+          </div>
+          <nav class="resource-tabs">
+            <button data-resource-tab="readability" class="active">体检</button>
+            <button data-resource-tab="glossary">术语</button>
+            <button data-resource-tab="profiles">画像库</button>
+          </nav>
+          <section class="panel" data-tab="readability">
+            <div class="panel-title"><span>文本体检</span></div>
+            <div class="panel-body" style="padding:8px">
+              <textarea id="checkText" rows="5" style="width:100%;font:13px/1.6 sans-serif;padding:8px;border:1px solid var(--border);border-radius:8px;background:var(--bg);color:var(--text)" placeholder="粘贴要体检的文本（≥30 字）"></textarea>
+              <button class="primary block" id="runReadability" style="margin-top:8px">可读性评分</button>
+              <button class="ghost block" id="runGlossary" style="margin-top:6px">术语一致性检查</button>
+              <div id="checkResult" class="muted small" style="margin-top:8px">结果展示在这里</div>
+            </div>
+          </section>
+          <section class="panel hidden" data-tab="glossary">
+            <div class="panel-title"><span>术语规范</span></div>
+            <div class="panel-body" style="padding:8px">
+              <div id="glossaryCard" class="muted small">常见错别字/大小写规范由 st_glossary_check 自动检查；可在对话框让 AI 用自定义词表跑</div>
+            </div>
+          </section>
+          <section class="panel hidden" data-tab="profiles">
+            <div class="panel-title"><span>已存画像</span></div>
+            <div class="panel-body" style="padding:8px">
+              <div id="profilesCard" class="muted small">点击"刷新"加载</div>
+            </div>
+          </section>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <div class="modal hidden" id="analyzeModal">
+    <form class="modal-card" id="analyzeForm" style="width:560px">
+      <h2>快速体检</h2>
+      <label>目标风格
+        <select name="targetStyle" style="width:100%;padding:8px;border:1px solid var(--border);border-radius:8px;background:var(--bg);color:var(--text)">
+          <option>简洁专业</option>
+          <option>正式</option>
+          <option>活泼轻松</option>
+        </select>
+      </label>
+      <label>文本
+        <textarea name="text" required rows="10" style="font:13px/1.6 sans-serif;padding:8px;border:1px solid var(--border);border-radius:8px;background:var(--bg);color:var(--text)" placeholder="粘贴要分析的文本…"></textarea></label>
+      <p class="muted small">生成可读性评分 + 按目标风格给改写建议（原稿不会被修改）。</p>
+      <div class="modal-actions"><button type="button" class="ghost" id="cancelAnalyzeModal">取消</button><button class="primary">开始分析</button></div>
+    </form>
+  </div>
+  <div id="toast" class="toast"></div>
+  <script src="app.js"></script>
+</body>
+</html>
